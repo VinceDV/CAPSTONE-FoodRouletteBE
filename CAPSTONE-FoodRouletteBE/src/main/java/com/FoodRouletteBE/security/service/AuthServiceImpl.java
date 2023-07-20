@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
         System.out.println(user);
         userRepository.save(user);
 
-        return "User registered successfully!.";
+        return "User registered successfully!";
     }
 
     public ERole getRole(String role) {

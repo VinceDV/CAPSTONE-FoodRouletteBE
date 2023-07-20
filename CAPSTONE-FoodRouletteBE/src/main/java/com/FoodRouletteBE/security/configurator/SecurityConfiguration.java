@@ -52,17 +52,16 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/api/customer").hasRole("USER")
-                        .requestMatchers("/api/invoice/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/app/ricetta/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/app/ricetta").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
-                .exceptionHandling(exception -> exception
+                        .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationEntryPoint))
-                .sessionManagement(session -> session
+                        .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        
+
         return http.build();
     }
 
